@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XMAP</title>
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            color: #404040;
+            font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin: 0;
+            font-weight: 400;
+            line-height: 20px;
+            padding: 20px 2px;
+        }
+
+        a {
+            color: #404040;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #101010;
+        }
+
+        /* The page is split between map and sidebar - the sidebar gets 1/3, map gets 2/3 of the page. You can adjust this to your personal liking. */
+        .sidebar {
+            position: absolute;
+            width: 33.3333%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            border-right: 1px solid rgb(0 0 0 / 25%);
+        }
+
+        .map {
+            position: absolute;
+            left: 33.3333%;
+            width: 66.6666%;
+            top: 0;
+            bottom: 0;
+        }
+
+        .heading {
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            height: 60px;
+            line-height: 60px;
+            padding: 0 10px;
+        }
+
+        .listings {
+            height: 100%;
+            overflow: auto;
+            padding-bottom: 60px;
+        }
+
+        .listings .item {
+            border-bottom: 1px solid #eee;
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        .listings .item:last-child {
+            border-bottom: none;
+        }
+
+        .listings .item .title {
+            display: block;
+            color: #00853e;
+            font-weight: 700;
+        }
+
+        .listings .item .title small {
+            font-weight: 400;
+        }
+
+        .listings .item.active .title,
+        .listings .item .title:hover {
+            color: #8cc63f;
+        }
+
+        .listings .item.active {
+            background-color: #f8f8f8;
+        }
+
+        ::-webkit-scrollbar {
+            width: 3px;
+            height: 3px;
+            border-left: 0;
+            background: rgba(0 0 0 0.1);
+        }
+
+        ::-webkit-scrollbar-track {
+            background: none;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00853e;
+            border-radius: 0;
+        }
+
+        /* Marker tweaks */
+        .mapboxgl-popup {
+            padding-bottom: 50px;
+        }
+
+        .mapboxgl-popup-close-button {
+            display: none;
+        }
+
+        .mapboxgl-popup-content {
+            font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+            padding: 0;
+            width: 180px;
+        }
+
+        .mapboxgl-popup-content h3 {
+            background: #91c949;
+            color: #fff;
+            margin: 0;
+            padding: 10px;
+            border-radius: 3px 3px 0 0;
+            font-weight: 700;
+            margin-top: -15px;
+        }
+
+        .mapboxgl-popup-content h4 {
+            margin: 0;
+            padding: 10px;
+            font-weight: 400;
+        }
+
+        .mapboxgl-popup-content div {
+            padding: 10px;
+        }
+
+        .mapboxgl-popup-anchor-top>.mapboxgl-popup-content {
+            margin-top: 15px;
+        }
+
+        .mapboxgl-popup-anchor-top>.mapboxgl-popup-tip {
+            border-bottom-color: #91c949;
+        }
+
+        .mapboxgl-ctrl {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .mapboxgl-ctrl button {
+            background-color: #00853e;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .mapboxgl-ctrl button:hover {
+            background-color: #005f2a;
+        }
+
+        .marker {
+            border: none;
+            cursor: pointer;
+            height: 56px;
+            width: 56px;
+            background-image: url('marker.png');
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="heading">
+            <h1>Stalls</h1>
+        </div>
+        <div id="listings" class="listings"></div>
+    </div>
+    <div id="map" class="map"></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY3lwaGVyZGV2IiwiYSI6ImNseHZlaXluZzBtbmUya3ByOGY4NWhycGIifQ.pm9qlZiuaZm-RNwK6P3JVQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/cypherdev/clybouz7s00eb01pfhk6a7lkn',
+            center: [80.0063, 7.0922],
+            zoom: 18.5,
+            scrollZoom: false,
+            pitch: 55,
+            bearing: -12.6,
+        });
+
+        let rotating = true;
+        let initialView = {
+            center: [80.0063, 7.0922],
+            zoom: 18.5,
+            pitch: 55,
+            bearing: -12.6,
+        };
+
+        fetch('markers_final.geojson')
+            .then(response => response.json())
+            .then(stores => {
+                stores.features.forEach((store, i) => {
+                    store.properties.id = i;
+                });
+
+                map.on('load', () => {
+                    map.addSource('places', {
+                        type: 'geojson',
+                        data: stores
+                    });
+                    addMarkers(stores);
+                    buildLocationList(stores);
+                });
+            })
+            .catch(error => console.error('Error fetching the GeoJSON file:', error));
+
+        function addMarkers(stores) {
+            for (const marker of stores.features) {
+                const el = document.createElement('div');
+                el.id = `marker-${marker.properties.id}`;
+                el.className = 'marker';
+
+                new mapboxgl.Marker(el, { offset: [0, -23] })
+                    .setLngLat(marker.geometry.coordinates)
+                    .addTo(map);
+
+                el.addEventListener('click', (e) => {
+                    flyToStore(marker);
+                    createPopUp(marker);
+                    const activeItem = document.getElementsByClassName('active');
+                    e.stopPropagation();
+                    if (activeItem[0]) {
+                        activeItem[0].classList.remove('active');
+                    }
+                    const listing = document.getElementById(`listing-${marker.properties.id}`);
+                    listing.classList.add('active');
+                });
+            }
+        }
+
+        function buildLocationList(stores) {
+            for (const store of stores.features) {
+                const listings = document.getElementById('listings');
+                const listing = listings.appendChild(document.createElement('div'));
+                listing.id = `listing-${store.properties.id}`;
+                listing.className = 'item';
+
+                const link = listing.appendChild(document.createElement('a'));
+                link.href = '#';
+                link.className = 'title';
+                link.id = `link-${store.properties.id}`;
+                link.innerHTML = `${store.properties.address}`;
+
+                const details = listing.appendChild(document.createElement('div'));
+                details.innerHTML = `${store.properties.city}`;
+                if (store.properties.phone) {
+                    details.innerHTML += ` &middot; ${store.properties.phoneFormatted}`;
+                }
+                if (store.properties.distance) {
+                    const roundedDistance = Math.round(store.properties.distance * 100) / 100;
+                    details.innerHTML += `<div><strong>${roundedDistance} miles away</strong></div>`;
+                }
+
+                link.addEventListener('click', function () {
+                    for (const feature of stores.features) {
+                        if (this.id === `link-${feature.properties.id}`) {
+                            flyToStore(feature);
+                            createPopUp(feature);
+                        }
+                    }
+                    const activeItem = document.getElementsByClassName('active');
+                    if (activeItem[0]) {
+                        activeItem[0].classList.remove('active');
+                    }
+                    this.parentNode.classList.add('active');
+
+                    rotating = false;
+                    resetButton.disabled = false;
+                });
+            }
+        }
+
+        function flyToStore(currentFeature) {
+            map.flyTo({
+                center: currentFeature.geometry.coordinates,
+                zoom: 20,
+                essential: true
+            });
+        }
+
+        function createPopUp(currentFeature) {
+            const popUps = document.getElementsByClassName('mapboxgl-popup');
+            if (popUps[0]) popUps[0].remove();
+
+            const popup = new mapboxgl.Popup({ closeOnClick: false })
+                .setLngLat(currentFeature.geometry.coordinates)
+                .setHTML(`<h3>XMAP - Powered by TEAMBCCS</h3><h4>${currentFeature.properties.address}</h4>`)
+                .addTo(map);
+        }
+
+        let rotationFrame;
+
+        function rotateCamera(timestamp) {
+            if (rotating) {
+                map.rotateTo((timestamp / 100) % 360, { duration: 0 });
+                rotationFrame = requestAnimationFrame(rotateCamera);
+            }
+        }
+        rotateCamera(0);
+
+        const stopAnimationsButton = document.getElementById('stop-animations');
+        stopAnimationsButton.addEventListener('click', () => {
+            rotating = false;
+            cancelAnimationFrame(rotationFrame);
+        });
+
+        const resetButton = document.getElementById('reset');
+        resetButton.addEventListener('click', () => {
+            rotating = true;
+            map.setZoom(initialView.zoom);
+            map.setCenter(initialView.center);
+            rotateCamera(0);
+            resetButton.disabled = true;
+        });
+    </script>
+
+    <div class="mapboxgl-ctrl">
+        <button id="stop-animations">Stop Animations</button>
+        <button id="reset" disabled>Reset</button>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Show Specific Land Use</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet" />
+<style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiY3lwaGVyZGV2IiwiYSI6ImNseHZlaXluZzBtbmUya3ByOGY4NWhycGIifQ.pm9qlZiuaZm-RNwK6P3JVQ';
+
+const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11', // Using Mapbox Streets v11
+    center: [80.006, 7.092], // Adjust the coordinates to your area of interest
+    zoom: 15
+});
+
+map.on('load', () => {
+    // Hide all existing layers
+    map.getStyle().layers.forEach(layer => {
+        map.setLayoutProperty(layer.id, 'visibility', 'none');
+    });
+
+    // Add the landuse source layer back
+    map.addLayer({
+        'id': 'highlighted-landuse',
+        'type': 'fill',
+        'source': 'composite',
+        'source-layer': 'landuse', // The source layer for land use in Mapbox Streets v8
+        'layout': {},
+        'paint': {
+            'fill-color': '#088', // Color of the highlighted area
+            'fill-opacity': 0.8
+        },
+        'filter': ['==', 'id', 286528706] // Filter to show only the specific land use area
+    });
+});
+</script>
+</body>
+</html>

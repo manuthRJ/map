@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin panel of Xmap</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery for AJAX -->
+<script>
+$(document).ready(function() {
+
+    // Function to check and delete old records
+    function checkAndDeleteRecords() {
+        $.ajax({
+            url: 'clear_db.php', // Path to your PHP script
+            type: 'GET', // Method type
+            success: function(response) {
+                console.log('AJAX request successful.');
+                // Check if records were deleted successfully
+                if (response.trim() === 'Records deleted successfully.') {
+                    console.log('Records deleted successfully.');
+                } else {
+                    console.error('Error deleting records:', response);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX request failed:', error);
+            }
+        });
+    }
+
+    // Run checkAndDeleteRecords function every 10 seconds
+    setInterval(checkAndDeleteRecords, 10000); // 10 seconds interval (10000 milliseconds)
+});
+
+</script>
+<style>
+    *{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    }
+    /**Header**/
+    header{
+        width: 100vw;
+        height: 10vh;
+        box-shadow: 5px 5px 15px #122C57;
+        background-color: #8D223E;
+    }
+    header .ulTwo{
+        list-style-type: none;
+        float: right;
+    }
+    header li{
+        display: inline-block;
+        padding: 15px 15px;
+        font-family: 'Montserrat';
+        user-select: none;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: bolder;
+    }
+    header .ulTwo li a{
+        color:#ffffff;
+        text-decoration: none;
+        transition: 0.4s opacity;
+    }
+    header .ulTwo li a:hover{
+        opacity: 80%;
+    }
+    #imgOne{
+        width: 100px;
+        padding: 15px 15px;
+        cursor: pointer;
+    }
+    /**Main**/
+    #main{
+        width: 100vw;
+        height: auto;
+    }
+    #opera{
+        width: 100vw;
+        height: 100vh;
+        font-family: 'Montserrat';
+        padding: 10px;
+        margin-top: 20px;
+    }
+    #opera ul{
+        list-style-type: disc;
+    }
+    #model{
+        width: 100vw;
+        height: auto;
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-evenly;
+        margin-top: 20px;
+    }
+    #zonesOne,#zonesTwo,#zonesThree,#zonesFour,#zonesFive,#zonesSix,#zonesSeven{
+        width: 250px;
+        min-height:250px ;
+        border-radius: 20px;
+        border:1px solid black;
+        cursor: pointer;
+        user-select: none;
+        padding: 10px;
+    }
+    .btn{
+        padding: 5px;
+        margin-left: 10px;
+        width: 200px;
+        padding: 5px;
+        margin-top: 5px;
+        outline: none;
+        border:none;
+        cursor: pointer;
+        border-radius: 20px;
+        font-size: 20px;
+    }
+    /*To share Ads*/
+    #adsv{
+        width: 100vw;
+        height: 100vh;
+        padding:10px;
+        font-family: 'Montserrat';
+    }
+    #pop{
+        width: 50vw;
+        height: 50vh;
+        font-family: 'Montserrat';
+        padding: 10px;
+        font-size: 20px;
+        border:1px solid black;
+        border-radius:20px;
+    }
+    #pop button{
+        background-color: green;
+        padding: 5px;
+        margin-left: 10px;
+        width: 200px;
+        padding: 5px;
+        margin-top: 5px;
+        outline: none;
+        border:none;
+        cursor: pointer;
+        border-radius: 20px;
+        font-size: 20px;
+    }
+    #popD{
+        position: fixed;
+        bottom:10%;
+        right: 2%;
+        width: auto;
+        height:auto;
+        z-index: 1000;
+        background-color:transparent;
+    }
+    #popD button{
+        background-color:red;
+        padding: 5px;
+        margin-left: 10px;
+        width: 300px;
+        padding: 5px;
+        margin-top: 5px;
+        outline: none;
+        border:none;
+        cursor: pointer;
+        border-radius: 20px;
+        font-size: 20px;
+    }
+    #popDCover{
+        font-family: 'Montserrat';
+        border-radius: 20px;
+        padding:5px;
+        border: 1px solid red;
+        width: 25vw;
+        height: 10vh;
+    }
+    /*For Responsive*/
+    @media screen and (max-width: 768px) {
+        #pop{
+            width: 90vw;
+        }
+        #popDCover{
+            width: 90vw;
+            height: 15vh;
+        }
+        #popD{
+            position: static;
+        }
+
+    }
+    @media screen and (max-width: 457px) {
+        #popD button{
+            width: 250px;
+        }
+        #opera{
+            width: 100vw;
+            height: 250vh;
+            font-family: 'Montserrat';
+            padding: 10px;
+            margin-top: 20px;
+        }
+        header li{
+        display: inline-block;
+        padding: 15px 15px;
+        font-family: 'Montserrat';
+        user-select: none;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: bolder;
+    }
+    }
+</style>
+</head>
+<body>
+    <!--Header-->
+    <header>
+        <img src="Images/xban.png" alt="" id="imgOne">
+
+        <ul class="ulTwo">
+            <li><a href="index.html" target="_blank">Map View</a></li>
+            <li><a href="https://bcg.lk/">BC Web</a></li>
+        </ul>
+    </header>
+    <!--Header off-->
+    <!--Main-->
+    <div id="main">
+        <!--Operation block-->
+        <div id="opera" >
+            <ul>
+                How Operate ?
+                <hr>
+                <li>You can operate zones by clicking suitable color for each zone.</li>
+                <li><b>People counts for each colors</b>
+                    <dt>Red (High): </dt>
+                    <dt>Yellow (Normal):</dt>
+                    <dt>Green (Low):</dt>
+                </li>
+                <hr>
+                <li>When add the ads, please add next and after about 15 seconds by adding first Ads.</li>
+                <li>You can see about Ads Status by ' Deletion or Add Status ' popup.</li>
+                <hr>
+            </ul>
+            <div id="model">
+                <div id="zonesOne">
+                    <h3>Zone One</h3>
+                    <br><br><br>
+                    <button class="btn" style="background-color: green;" data-zone="zone1" data-value="0">
+                        Low
+                    </button>
+                    <button class="btn" style="background-color: yellow;" data-zone="zone1" data-value="8">
+                        Normal
+                    </button>
+                    <button class="btn" style="background-color: red;" data-zone="zone1" data-value="500">
+                        High
+                    </button>
+                </div>
+                <div id="zonesTwo">
+                    <h3>Zone Two</h3> <br><br><br>
+                    <button class="btn" style="background-color: green;" data-zone="zone2" data-value="0">
+                        Low
+                    </button>
+                    <button class="btn" style="background-color: yellow;" data-zone="zone2" data-value="8">
+                        Normal
+                    </button>
+                    <button class="btn" style="background-color: red;" data-zone="zone2" data-value="500">
+                        High
+                    </button>
+                </div>
+                <div id="zonesThree">
+                    <h3>Zone Three</h3> <br><br><br>
+                    <button class="btn" style="background-color: green;" data-zone="zone3" data-value="0">
+                        Low
+                    </button>
+                    <button class="btn" style="background-color: yellow;" data-zone="zone3" data-value="8">
+                        Normal
+                    </button>
+                    <button class="btn" style="background-color: red;" data-zone="zone3" data-value="500">
+                        High
+                    </button>
+                    
+                </div>
+                <div id="zonesFour">
+                    <h3>Zone Four</h3> <br><br><br>
+                    <button class="btn" style="background-color: green;" data-zone="zone4" data-value="0">
+                        Low
+                    </button>
+                    <button class="btn" style="background-color: yellow;" data-zone="zone4" data-value="8">
+                        Normal
+                    </button>
+                    <button class="btn" style="background-color: red;" data-zone="zone4" data-value="500">
+                        High
+                    </button>
+                </div>
+                <div id="zonesFive">
+                    <h3>Zone Five</h3> <br><br><br>
+                    <button class="btn" style="background-color: green;" data-zone="zone5" data-value="0">
+                        Low
+                    </button>
+                    <button class="btn" style="background-color: yellow;" data-zone="zone5" data-value="8">
+                        Normal
+                    </button>
+                    <button class="btn" style="background-color: red;" data-zone="zone5" data-value="500">
+                        High
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Main Off-->
+    <!---To share ADs-->
+    <div id="adsv">
+        <h1>Plase add ADS Through that part</h1>
+        <div id="pop">
+            <form action="up.php" method="POST" enctype="multipart/form-data">
+                <label for="ma">
+                    Logo
+                </label>
+                <input type="file" required placeholder="Your File" name="logo">
+                <label for="a">
+                    Heading :
+                </label>
+                <textarea name="head" id="a"  required placeholder="Heading">
+
+                </textarea><br>
+                <label for="b">
+                    Description :
+                </label>
+                <textarea name="des" id="b" required placeholder="Description">
+
+                </textarea> <br>
+                <label for="c">
+                    Links :
+                </label>
+                <input type="text" name="links" id="c"  placeholder="If you have links"> <br>
+                <button>
+                    Send !
+                </button>
+            </form>
+        </div>
+    </div>
+    <!--Delete Ads display as pop on admin panel-->
+    <div id="popD">
+       
+        <div id="popDCover">
+            <form action="del.php" method="POST" enctype="multipart/form-data">
+                <button id="myButton">
+                    Waiting For Suitable COMAND !
+                </button> <br>
+                Deletion or Add Status
+            </form>
+        </div>
+
+    </div>
+    <script>
+        
+        // Add event listeners to all buttons with class 'btn'
+        document.querySelectorAll('.btn').forEach(button => {
+          button.addEventListener('click', function() {
+            const zone = this.getAttribute('data-zone');
+            const value = this.getAttribute('data-value');
+            updateZone(zone, value);
+          });
+        });
+
+        function updateZone(zone, value) {
+            // Update the timestamp to the current time
+            const utcTimestamp = Math.floor(Date.now() / 1000);
+
+            // Calculate the offset for Colombo timezone (UTC+5:30)
+            const offsetSeconds = 5.5 * 60 * 60;
+            const timestamp=utcTimestamp + offsetSeconds;
+            console.log(timestamp);
+            // Fetch request to update the zone value and timestamp
+            fetch('http://localhost/Xmap-main/Xmap-main/updateData.php', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                [zone]: parseInt(value),
+                timestamp: timestamp // Include timestamp in the JSON payload
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                alert(`JSON updated successfully for ${zone}!`);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(`Failed to update JSON for ${zone}`);
+            });
+        }
+        function checkDeletionStatus() {
+            fetch('checkStatus.php')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('myButton').innerHTML = data.message;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Check status every 5 seconds
+        setInterval(checkDeletionStatus, 5000);
+    </script>
+</body>
+</html>

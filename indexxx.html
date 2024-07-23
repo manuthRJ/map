@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Mapbox Traffic Map</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY3lwaGVyZGV2IiwiYSI6ImNseHZlaXluZzBtbmUya3ByOGY4NWhycGIifQ.pm9qlZiuaZm-RNwK6P3JVQ';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/cypherdev/clyldm8zb005m01plc6xm0rlc',
+        center: [80.006, 7.092], // Change to your desired location
+        zoom: 18,
+        pitch: 45,
+        bearing: -17.6,
+        antialias: true
+    });
+
+    // Add navigation controls
+    map.addControl(new mapboxgl.NavigationControl());
+
+    // Add scale control
+    map.addControl(new mapboxgl.ScaleControl());
+
+    // Add 3D buildings
+    map.on('load', function () {
+        map.addLayer({
+            'id': '3d-buildings',
+            'source': 'composite',
+            'source-layer': 'building',
+            'filter': ['==', 'extrude', 'true'],
+            'type': 'fill-extrusion',
+            'minzoom': 15,
+            'paint': {
+                'fill-extrusion-color': '#aaa',
+                'fill-extrusion-height': ['get', 'height'],
+                'fill-extrusion-base': ['get', 'min_height'],
+                'fill-extrusion-opacity': 0.6
+            }
+        });
+
+        // Define zones
+        var zones = {
+            'type': 'FeatureCollection',
+            'features': [
+                {
+                    'type': 'Feature',
+                    'properties': {'id': 'zone1'},
+                    'geometry': {
+                        'type': 'Polygon',
+                        'coordinates': [
+                            [
+                                [81.004, 8.093],
+                                [81.008, 8.093],
+                                [81.008, 8.090],
+                                [81.004, 8.090],
+                                [81.004, 8.093]
+                            ]
+                        ]
+                    }
+                },
+                {
+                    'type': 'Feature',
+                    'properties': {'id': 'zone2'},
+                    'geometry': {
+                        'type': 'Polygon',
+                        'coordinates': [
+                            [
+                                [80.004, 7.093],
+                                [80.008, 7.093],
+                                [80.008, 7.090],
+                                [80.004, 7.090],
+                                [80.004, 7.093]
+                            ]
+                        ]
+                    }
+                }
+            ]
+        };
+
+        map.addSource('zones', {
+            'type': 'geojson',
+            'data': zones
+        });
+
+        map.addLayer({
+            'id': 'zones',
+            'type': 'fill',
+            'source': 'zones',
+            'layout': {},
+            'paint': {
+                'fill-color': '#888888',
+                'fill-opacity': 0.4
+            }
+        });
+
+        function updateZones() {
+            fetch('people_count.json')
+                .then(response => response.json())
+                .then(data => {
+                    const colors = {
+                        'zone1': data.zone1 > 10 ? 'red' : (data.zone1 > 5 ? 'yellow' : 'green'),
+                        'zone2': data.zone2 > 10 ? 'red' : (data.zone2 > 5 ? 'yellow' : 'green')
+                    };
+
+                    zones.features.forEach(zone => {
+                        map.setPaintProperty('zones', 'fill-color', [
+                            'case',
+                            ['==', ['get', 'id'], zone.properties.id], colors[zone.properties.id],
+                            '#888888'
+                        ]);
+                    });
+                });
+        }
+
+        setInterval(updateZones, 60000); // 10 minutes
+        updateZones();
+    });
+
+    // Rotate animation
+    function rotateCamera(timestamp) {
+        // Update the bearing based on the animation's progress
+        map.rotateTo((timestamp / 100) % 360, { duration: 0 });
+        // Request the next frame of the animation
+        requestAnimationFrame(rotateCamera);
+    }
+
+    // Start the animation
+    rotateCamera(0);
+
+</script>
+</body>
+</html>

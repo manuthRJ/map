@@ -1,0 +1,545 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Western Music Society"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00561843319275,
+                    7.0918456103618865
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Arcadia - Gaming Zone Powered by Pentium City"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.0059482776046,
+                    7.091836446468619
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Astronomy"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00594138036246,
+                    7.091707035931634
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Oriental Music"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.0058453151895,
+                    7.091780532412244
+                ],
+                "type": "Point"
+            },
+            "id": 3
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Commerce Section"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00591783071832,
+                    7.092470839114924
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Car Park"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00568627813738,
+                    7.092920167009694
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Grade 10 Section"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00604650620943,
+                    7.092816311192493
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Aeronautical Showroom"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.0057127738906,
+                    7.092715244188923
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Robotics and Electronics Society"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00571635877264,
+                    7.09271459277754
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Scout Watch-Hut"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00604335386765,
+                    7.092948981592642
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Entrepreneurs Circle Show Room "
+            },
+            "geometry": {
+                "coordinates": [
+                    80.0055785548816,
+                    7.092522786977085
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Court - Debate Society"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.0057313792991,
+                    7.092368120528775
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Dambana"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00611593660608,
+                    7.0926450274129
+                ],
+                "type": "Point"
+            },
+            "id": 12
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Power House, Multiverse"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00642013673706,
+                    7.092686500528018
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Tourism, Transportation, Business, Water Filtering"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00587663837138,
+                    7.092455553310231
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "WWII - BCBOP"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00600674796772,
+                    7.092260371397174
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Japanese Association"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00572243296557,
+                    7.092136042815866
+                ],
+                "type": "Point"
+            },
+            "id": 16
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Evolution of Library"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00586849418005,
+                    7.092113960707067
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Photo Booth - BCPAS"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00561680210609,
+                    7.092009130944831
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Washrooms"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00558282839546,
+                    7.092204549231809
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Washrooms"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00555877380941,
+                    7.092420547784968
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Central Media Studio - BCMU"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00609811612264,
+                    7.09208070210731
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Parliament, Language Association"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00633570019897,
+                    7.092079109450793
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "School Canteen"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00660106528488,
+                    7.092382154038162
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Buddhist Culture"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.0056170305752,
+                    7.091951323311477
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Technology Section"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00570995489623,
+                    7.092717622247043
+                ],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Indoor Sports Club"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00561957542078,
+                    7.091718667049065
+                ],
+                "type": "Point"
+            },
+            "id": 26
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Buddhist Association, St. John's, Oil Refinery"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00583788464775,
+                    7.091527161728976
+                ],
+                "type": "Point"
+            },
+            "id": 27
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Science Section"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00608303082635,
+                    7.091715399507805
+                ],
+                "type": "Point"
+            },
+            "id": 28
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Ground Floor",
+                "Description": "Evolution of Organisms, Man grooves, Medical Students' Stall"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.006081634481,
+                    7.091740003474754
+                ],
+                "type": "Point"
+            },
+            "id": 29
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "2nd Floor",
+                "Description": "Humanoid Robot, Quantum Mechanics, Quantum Computing, Neuron System, Nuclear Weapons, After Nuclear World, Research Circle "
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00608782197935,
+                    7.091753476221939
+                ],
+                "type": "Point"
+            },
+            "id": 30
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "3rd Floor",
+                "description": "Mars Colonisation, Asteroids Strike Back, Space Travel, Future City, 6-11 Science Projects, Nano Technology, Space "
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00608774833381,
+                    7.091754773871131
+                ],
+                "type": "Point"
+            },
+            "id": 31
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Quiz Society, CS Arduino Projects, Global Access - English Society "
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00608776073574,
+                    7.0914540671276995
+                ],
+                "type": "Point"
+            },
+            "id": 32
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Invention Club"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.0058250745526,
+                    7.091529208540322
+                ],
+                "type": "Point"
+            },
+            "id": 33
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Kovil"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00585144675063,
+                    7.091434351776641
+                ],
+                "type": "Point"
+            },
+            "id": 34
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Egypt Civilisation "
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00594686570685,
+                    7.0913016967732005
+                ],
+                "type": "Point"
+            },
+            "id": 35
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Swimming Pool"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00603474403852,
+                    7.090905672646741
+                ],
+                "type": "Point"
+            },
+            "id": 36
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Shooting Arena"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00624568441691,
+                    7.090872017077629
+                ],
+                "type": "Point"
+            },
+            "id": 37
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Off Road Racing Track"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00643852511115,
+                    7.092778906920159
+                ],
+                "type": "Point"
+            },
+            "id": 38
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "address": "Volcano"
+            },
+            "geometry": {
+                "coordinates": [
+                    80.00637260899214,
+                    7.092807767063547
+                ],
+                "type": "Point"
+            },
+            "id": 39
+        }
+    ]
+}

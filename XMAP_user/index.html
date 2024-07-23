@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Navigate with TEAMBCCS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    body, html { height: 100%; margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY3lwaGVyZGV2IiwiYSI6ImNseHZlaXluZzBtbmUya3ByOGY4NWhycGIifQ.pm9qlZiuaZm-RNwK6P3JVQ';
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/cypherdev/clyu0mlvq003s01pfdgxmhgcw', // remove '/draft' if not intended
+      center: [80.0073, 8.0922], // Center of your area
+      zoom: 26, // Initial zoom level
+      minZoom: 15, // Minimum zoom level to prevent zooming out
+      maxZoom: 18 // Maximum zoom level
+    });
+
+    const bounds = [
+      [80.00764752815985, 7.0925868124893725], // Southwest coordinates
+      [80.00545776877618, 7.090716941152152]  // Northeast coordinates
+    ];
+    map.setMaxBounds(bounds);
+  </script>
+</body>
+</html>

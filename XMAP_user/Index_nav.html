@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XBAN Navigation</title>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    #controls { position: absolute; top: 10px; left: 10px; background: white; padding: 10px; z-index: 1; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="controls">
+    <label for="start">Start:</label>
+    <input type="text" id="start" placeholder="Enter start coordinates" value="80.00604808283589, 7.092531367818253"><br>
+    <label for="end">End:</label>
+    <input type="text" id="end" placeholder="Enter destination coordinates" value="80.00647114447446, 7.092212198348719"><br>
+    <button id="navigateButton">Navigate</button>
+  </div>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js'></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' rel='stylesheet' />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY3lwaGVyZGV2IiwiYSI6ImNseHZlaXluZzBtbmUya3ByOGY4NWhycGIifQ.pm9qlZiuaZm-RNwK6P3JVQ';
+
+    const campusCenter = [80.0063, 7.0922];
+    const bounds = [
+      [80.0050, 7.0910], // Southwest coordinates
+      [80.0080, 7.0940]  // Northeast coordinates
+    ];
+
+    try {
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/cypherdev/clybouz7s00eb01pfhk6a7lkn', // Use default Mapbox style for testing
+        center: campusCenter,
+        zoom: 15,
+        maxBounds: bounds // Sets bounds as max
+      });
+
+      map.on('load', () => {
+        map.addControl(new mapboxgl.NavigationControl());
+
+        const directions = new MapboxDirections({
+          accessToken: mapboxgl.accessToken,
+          unit: 'metric',
+          profile: 'mapbox/walking',
+        });
+        map.addControl(directions, 'top-left');
+
+        const pointsOfInterest = [
+          { name: 'Main Entrance', coordinates:  [80.00604808283589, 7.092531367818253] },
+          { name: 'Library', coordinates: [80.00574674807206, 7.092723826805624] },
+          { name: 'Cafeteria', coordinates: [80.00647114447446, 7.092212198348719] },
+          { name: 'Gym', coordinates: [80.00637827086848, 7.092696455083924] }
+        ];
+
+        pointsOfInterest.forEach(point => {
+          new mapboxgl.Marker()
+            .setLngLat(point.coordinates)
+            .setPopup(new mapboxgl.Popup().setHTML(`<h3>${point.name}</h3>`))
+            .addTo(map);
+        });
+
+        document.getElementById('navigateButton').addEventListener('click', () => {
+          const start = document.getElementById('start').value.split(',').map(Number);
+          const end = document.getElementById('end').value.split(',').map(Number);
+          directions.setOrigin(start);
+          directions.setDestination(end);
+        });
+
+        let userMarker;
+        let lastPosition;
+
+        if (navigator.geolocation) {
+          navigator.geolocation.watchPosition(position => {
+            const userLocation = [position.coords.longitude, position.coords.latitude];
+            
+            // Check if userLocation is within bounds
+            const point = turf.point(userLocation);
+            const bboxPolygon = turf.bboxPolygon(turf.bbox(bounds));
+
+            if (turf.booleanPointInPolygon(point, bboxPolygon)) {
+              map.setCenter(userLocation);
+
+              if (userMarker) {
+                userMarker.setLngLat(userLocation);
+              } else {
+                userMarker = new mapboxgl.Marker({ color: 'blue' })
+                  .setLngLat(userLocation)
+                  .setPopup(new mapboxgl.Popup().setHTML("<h3>You are here</h3>"))
+                  .addTo(map);
+              }
+
+              directions.setOrigin(userLocation);
+
+              if (lastPosition) {
+                const bearing = turf.bearing(
+                  turf.point([lastPosition.coords.longitude, lastPosition.coords.latitude]),
+                  turf.point(userLocation)
+                );
+                map.setBearing(bearing);
+              }
+
+              lastPosition = position;
+            }
+          }, error => {
+            console.error(error);
+          }, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+          });
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      });
+    } catch (error) {
+      console.error('Error initializing Mapbox GL JS:', error);
+      alert('Failed to load the map. Please check the console for more details.');
+    }
+  </script>
+</body>
+</html>
